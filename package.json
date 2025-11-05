@@ -5,7 +5,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "delete": "rm -rf app/n",
-    "export": "next build"  // 添加导出脚本
+    "export": "next build"
   },
   "dependencies": {
     "@next/mdx": "15.3.3",
