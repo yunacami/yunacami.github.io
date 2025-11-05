@@ -1,26 +1,33 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
+const withMDX = createMDX({
+  // 可选：支持 .md/.mdx 文件导入
+  extension: /\.mdx?$/,
+});
+
 const nextConfig: NextConfig = {
-  // 静的出力設定（GitHub Pages用）
+  // 为静态导出启用 export 模式
   output: "export",
+
+  // GitHub Pages 必须加 trailingSlash
   trailingSlash: true,
+
+  // GitHub Pages 不支持 Next.js 的图片优化
   images: {
-    unoptimized: true, // GitHub Pages 必須
+    unoptimized: true,
   },
 
-  // basePath（GitHub Pagesのリポジトリ名に合わせて設定）
-  basePath:
-    process.env.NODE_ENV === "production" ? "/YUNACAMI.GITHUB.IO" : "",
+  // 👇 如果你的仓库名是 YUNACAMI.GITHUB.IO，留空即可
+  // 如果你的仓库名是别的，比如 my-next-site，就要写 "/my-next-site"
+  basePath: process.env.NODE_ENV === "production" ? "/YUNACAMI.GITHUB.IO" : "",
 
-  pageExtensions: ["mdx", "ts", "tsx"],
+  // 页面扩展名支持
+  pageExtensions: ["ts", "tsx", "mdx"],
 
-  // 🔹 redirects は静的環境でも安全に動くように固定値で設定
+  // 不需要 redirects（静态导出不支持）
   async redirects() {
-    return [
-      // 例: "/old" → "/new" にリダイレクト
-      // { source: "/old", destination: "/new", permanent: true },
-    ];
+    return [];
   },
 
   experimental: {
@@ -28,5 +35,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withMDX = createMDX({});
 export default withMDX(nextConfig);
