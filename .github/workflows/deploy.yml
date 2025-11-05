@@ -5,7 +5,7 @@ name: Deploy Next.js Static Site to GitHub Pages
 on:
   push:
     branches:
-      - main  # 监听 main 分支的 push 事件
+      - main
 
 jobs:
   build-and-deploy:
@@ -23,18 +23,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 使用 Next.js 进行静态构建和导出
       - name: Build and Export Next.js
         run: npm run build && next export
-        # 'next export' 命令会将静态文件输出到 'out/' 目录
         
-      # 将 'out' 目录的内容上传为 artifact
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out # 默认的静态导出目录
+          path: ./out
 
-      # 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
