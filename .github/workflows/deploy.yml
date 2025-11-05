@@ -1,54 +1,40 @@
-name: Deploy to GitHub Pages
+# .github/workflows/deploy.yml
+
+name: Deploy Next.js Static Site to GitHub Pages
 
 on:
   push:
-    branches: [main]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main  # 监听 main 分支的 push 事件
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
+      - name: Checkout 
         uses: actions/checkout@v4
-      
-      - name: Setup Node.js
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-      
+          node-version: '20'
+
       - name: Install dependencies
         run: npm install
-      
-      - name: Build
-        run: npm run build
-        env:
-          NODE_ENV: production
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      
+
+      # 使用 Next.js 进行静态构建和导出
+      - name: Build and Export Next.js
+        run: npm run build && next export
+        # 'next export' 命令会将静态文件输出到 'out/' 目录
+        
+      # 将 'out' 目录的内容上传为 artifact
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./out # 默认的静态导出目录
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+      # 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
