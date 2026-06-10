@@ -1,0 +1,20 @@
+title: 全球财经早报
+description: 每天东京时间早上 7 点自动生成的全球财经信息摘要
+url: "https://yunacami.github.io"
+baseurl: ""
+lang: zh-CN
+timezone: Asia/Tokyo
+
+theme: minima
+permalink: /:year/:month/:day/:title/
+
+# 首页显示全文摘要
+show_excerpts: true
+
+minima:
+  date_format: "%Y年%m月%d日"
+
+# 不参与构建的文件
+exclude:
+  - scripts/
+  - README.md
