@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<section class="hero">
+  <h1>全球财经早报</h1>
+  <p>每天东京时间早上 7:00，AI 自动汇总过去 24 小时全球市场动态、宏观政策、大宗商品与公司要闻。</p>
+</section>
+
+{{ content }}
+
+<section class="post-list">
+  {% for post in site.posts %}
+  <article class="post-card">
+    <div class="post-card-date">
+      <span class="day">{{ post.date | date: "%d" }}</span>
+      <span class="ym">{{ post.date | date: "%Y.%m" }}</span>
+    </div>
+    <div class="post-card-body">
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <p class="excerpt">{{ post.excerpt | strip_html | normalize_whitespace | truncate: 120 }}</p>
+      <a class="read-more" href="{{ post.url | relative_url }}">阅读全文 →</a>
+    </div>
+  </article>
+  {% endfor %}
+</section>
