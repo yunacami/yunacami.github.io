@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title and page.url != "/" %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="nav-toggle-btn" aria-label="打开导航">
+    <span></span><span></span><span></span>
+  </label>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <a href="{{ '/' | relative_url }}" class="brand-link">
+        <span class="brand-mark">¥€$</span>
+        <span class="brand-title">{{ site.title }}</span>
+      </a>
+      <p class="brand-sub">东京时间每天 7:00 自动更新</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{{ '/' | relative_url }}" class="nav-link{% if page.url == '/' %} active{% endif %}">首页</a>
+      <a href="{{ '/about/' | relative_url }}" class="nav-link{% if page.url == '/about/' %} active{% endif %}">关于本站</a>
+    </nav>
+
+    <div class="sidebar-archive">
+      <div class="archive-heading">历史早报</div>
+      {% assign by_month = site.posts | group_by_exp: "post", "post.date | date: '%Y年%m月'" %}
+      {% for month in by_month %}
+      <details class="archive-month"{% if forloop.first %} open{% endif %}>
+        <summary>{{ month.name }}<span class="month-count">{{ month.items | size }}</span></summary>
+        <ul>
+          {% for post in month.items %}
+          <li>
+            <a href="{{ post.url | relative_url }}"{% if page.url == post.url %} class="active"{% endif %}>
+              <span class="archive-date">{{ post.date | date: "%m/%d" }}</span>
+              <span class="archive-label">{{ post.date | date: "%A" | replace: "Monday", "周一" | replace: "Tuesday", "周二" | replace: "Wednesday", "周三" | replace: "Thursday", "周四" | replace: "Friday", "周五" | replace: "Saturday", "周六" | replace: "Sunday", "周日" }}早报</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </details>
+      {% endfor %}
+    </div>
+
+    <div class="sidebar-footer">
+      AI 自动生成 · 不构成投资建议
+    </div>
+  </aside>
+
+  <main class="content">
+    {{ content }}
+  </main>
+</body>
+</html>

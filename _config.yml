@@ -5,14 +5,7 @@ baseurl: ""
 lang: zh-CN
 timezone: Asia/Tokyo
 
-theme: minima
 permalink: /:year/:month/:day/:title/
-
-# 首页显示全文摘要
-show_excerpts: true
-
-minima:
-  date_format: "%Y年%m月%d日"
 
 # 不参与构建的文件
 exclude:
